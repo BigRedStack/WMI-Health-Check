@@ -32,7 +32,7 @@ To create a Health Monitor that is going to monitor a specific Windows service, 
 
 Go to 'Local Traffic' tab, then select 'Monitors' and click on the 'Create...' button.
 
-Enter a name for your Monitor... We usually include some kind of reference to the Server or Windows service being monitored.  Keep in mind that you will need to create an External monitor for each Windows service you are going to health check, and for each Windows server!
+Enter a name for your Monitor... We usually include some kind of reference to the Server or Windows service being monitored.  
 
 Click on the 'Type' dropdown and select the 'External' option (its towards the top).
 
