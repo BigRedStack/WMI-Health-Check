@@ -1,7 +1,7 @@
 ##
 ##   WMI_apiserver.ps1
 ##       Queries WMI Objects and Services and converts the output to JSON,
-##       then returned to the calling client.
+##       then returns the JSON to the calling client.
 ##
 ##   Currently this is hard-coded for port 8000, but can be changed to
 ##   whatever will work for your environment.
@@ -36,7 +36,9 @@ $listener.Prefixes.Add('http://+:8000/')
 $listener.Start()
 'Listening ...'
 
-# Run until you send a GET request to /end
+# Run until you send a GET request to /end. In a production environemtn, you
+# may want to comment out the '/end' code...otherwise it is a security hole that
+# anyone to shutdown your server!!
 while ($true) {
   $result = "";
   $message = "";

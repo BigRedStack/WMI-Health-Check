@@ -9,7 +9,7 @@
 //  Please Note: This script is part of a two-component solution -- a client and
 //  a server.  This is the client part.  The server part (WMI_apiserver.ps1) is a
 //  Windows PowerShell script that needs to be running on the target Windows
-//  Server in order to respond to thos client.  If the server is not running,
+//  Server in order to respond to this client.  If the server is not running,
 //  then the service on the BIG-IP will always be marked down.
 //
 //  John D. Allen
@@ -27,6 +27,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //----------------------------------------------------------------------------
+const VERSION = "1.2c";
 
 var http = require('http');
 
@@ -51,12 +52,18 @@ function debugLog(txt) {
 }
 
 debugLog(">>Starting");
+//-------------[  Grab IP/FQDN from command line  ]---------------
+var node = process.argv[2];
+node = node.replace('::ffff:','');      // remove IPv6 Prefix, if there.
+debugLog("Host:: " + node);
 
-var node = process.env.WINNODE;
+// Set require parameters
 var port = process.env.WINPORT || 8000;
 var svcs = process.env.WINSERVICE;
+// Build the correct REST API URL
 var url = "http://" + node + ":" + port + "/status/" + svcs;
 
+// Make the REST API Call to the remote Windows Server.
 http.get(url, function(resp) {
   var data = "";
 
@@ -87,8 +94,8 @@ process.on('uncaughtException', function(err) {
 //----------------------------------------------------------------------------
 function sendStatus(bool) {
   if(bool) {
-    console.log("UP");
     debugLog("UP");
+    console.log("UP");
     process.exit();
   } else {
     // No output means DOWN
